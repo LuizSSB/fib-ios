@@ -13,9 +13,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    func prepareForTabBar(
+        vc: UIViewController,
+        title: String,
+        icon: String
+    ) -> UIViewController {
+        vc.tabBarItem.title = title
+        vc.tabBarItem.image =
+            UIImage(named: icon)
+        
+        if let navC = vc as? UINavigationController {
+            navC.navigationBar.isTranslucent = false
+        }
+        
+        return vc
+    }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions:
+            [UIApplicationLaunchOptionsKey: Any]?
+        ) -> Bool {
+        let rootViewController = UITabBarController()
+        
+        let navC1 = UINavigationController(
+            rootViewController: FirstViewController()
+        )
+        
+        rootViewController.tabBar
+            .isTranslucent = false
+        rootViewController.viewControllers = [
+            prepareForTabBar(
+                vc: navC1,
+                title: "Navegação", icon: "icon1"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler 1", icon: "icon2"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler 2", icon: "icon3"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler 3", icon: "icon4"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler 4", icon: "icon5"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler 5", icon: "icon1"
+            ),
+            prepareForTabBar(
+                vc: ViewController(),
+                title: "ViewControler", icon: "icon2"
+            ),
+        ]
+        rootViewController.selectedIndex = 3
+        rootViewController.selectedViewController =
+            rootViewController.viewControllers![2]
+        window = UIWindow(frame: CGRect(
+            origin: CGPoint.zero,
+            size: UIScreen.main.bounds.size
+        ))
+        window?.addSubview(rootViewController.view)
+        window?.rootViewController = rootViewController
+        window?.makeKeyAndVisible()
         return true
     }
 
